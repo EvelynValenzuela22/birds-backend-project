@@ -1,0 +1,8 @@
+CREATE TABLE TBL_BIRDS(
+id                 BIGINT       NOT NULL GENERATED ALWAYS AS IDENTITY,
+common_name        VARCHAR(30)  UNIQUE NOT NULL,
+scientific_name    VARCHAR(30)  UNIQUE NOT NULL ,
+zone_name          VARCHAR(20)  UNIQUE NOT NULL ,
+confirmed_quantity INTEGER      NULL,
+PRIMARY KEY(id)
+);

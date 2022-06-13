@@ -20,6 +20,7 @@ public class QueryBirdByIdService implements QueryBirdByIdUseCase {
     @Override
     public Optional<BirdDTO> execute(Long id) {
         Optional<Bird> bird = birdRepository.get(new BirdId(id));
-        return bird.map(BirdDTO::fromDomain);
+
+        return bird.isPresent() ? bird.map(BirdDTO::fromDomain) : Optional.empty();
     }
 }

@@ -37,7 +37,12 @@ public class BirdController {
     public ResponseEntity<?> create(@RequestBody BirdDTO birdDTO) {
         try {
             BirdDTO birdDTOOutput = createBirdUseCase.execute(birdDTO);
-            return ResponseEntity.status(CREATED).body(birdDTOOutput);
+            if(birdDTOOutput.getStatus().equals("Created")) {
+                return ResponseEntity.status(CREATED).body(birdDTOOutput);
+            } else {
+                return ResponseEntity.ok(birdDTOOutput);
+            }
+
         } catch (NullPointerException | IllegalArgumentException e) {
             ApplicationError applicationError = new ApplicationError("InputDataValidationError", "Bad input data",
                     Map.of("error", e.getMessage()));

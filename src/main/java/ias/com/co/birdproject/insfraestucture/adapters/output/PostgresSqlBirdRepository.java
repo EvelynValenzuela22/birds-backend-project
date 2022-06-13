@@ -40,8 +40,8 @@ public class PostgresSqlBirdRepository implements BirdRepository {
             preparedStatement.execute();
 
         } catch (SQLException exception) {
-            System.out.println("Errror DB....: "  + exception.getMessage());
-            throw new RuntimeException("Error queryng database", exception);
+            System.out.println("Error DB....: "  + exception.getMessage());
+            throw new RuntimeException("Error querying database", exception);
         }
 
     }
@@ -62,15 +62,15 @@ public class PostgresSqlBirdRepository implements BirdRepository {
             preparedStatement.execute();
 
         } catch (SQLException exception) {
-            System.out.println("Errror DB....: "  + exception.getMessage());
-            throw new RuntimeException("Error queryng database", exception);
+            System.out.println("Error DB....: "  + exception.getMessage());
+            throw new RuntimeException("Error querying database", exception);
         }
 
     }
 
     @Override
     public Optional<Bird> get(BirdId birdId) {
-        String sql = "SELECT* FROM tbl_birds WHERE id = ?";
+        String sql = query("id");
 
         try(Connection connection = dataSource.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -88,8 +88,8 @@ public class PostgresSqlBirdRepository implements BirdRepository {
             }
 
         } catch (SQLException exception) {
-            System.out.println("Errror DB....: "  + exception.getMessage());
-            throw new RuntimeException("Error queryng database", exception);
+            System.out.println("Error DB....: "  + exception.getMessage());
+            throw new RuntimeException("Error querying database", exception);
         }
 
     }
@@ -106,14 +106,14 @@ public class PostgresSqlBirdRepository implements BirdRepository {
            return  preparedStatement.execute();
 
         } catch (SQLException exception) {
-            System.out.println("Errror DB....: "  + exception.getMessage());
-            throw new RuntimeException("Error queryng database", exception);
+            System.out.println("Error DB....: "  + exception.getMessage());
+            throw new RuntimeException("Error querying database", exception);
         }
     }
 
     @Override
     public Optional<Bird> getCommonName(BirdCommonName birdCommonName) {
-        String sql = "SELECT* FROM tbl_birds WHERE common_name = ?";
+        String sql = query("common_name");
         try(Connection connection = dataSource.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
@@ -129,14 +129,14 @@ public class PostgresSqlBirdRepository implements BirdRepository {
             }
 
         } catch (SQLException exception) {
-            System.out.println("Errror DB....: "  + exception.getMessage());
-            throw new RuntimeException("Error queryng database", exception);
+            System.out.println("Error DB....: "  + exception.getMessage());
+            throw new RuntimeException("Error querying database", exception);
         }
     }
 
     @Override
     public Optional<Bird> getScientificName(BirdScientificName birdScientificName) {
-        String sql = "SELECT* FROM tbl_birds WHERE scientific_name = ?";
+        String sql = query("scientific_name");
         try(Connection connection = dataSource.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
@@ -152,14 +152,14 @@ public class PostgresSqlBirdRepository implements BirdRepository {
             }
 
         } catch (SQLException exception) {
-            System.out.println("Errror DB....: "  + exception.getMessage());
-            throw new RuntimeException("Error queryng database", exception);
+            System.out.println("Error DB....: "  + exception.getMessage());
+            throw new RuntimeException("Error querying database", exception);
         }
     }
 
     @Override
     public Optional<Bird> getZoneName(BirdZoneName birdZoneName) {
-        String sql = "SELECT* FROM tbl_birds WHERE zone_name = ?";
+        String sql = query("zone_name");
         try(Connection connection = dataSource.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
@@ -175,9 +175,13 @@ public class PostgresSqlBirdRepository implements BirdRepository {
             }
 
         } catch (SQLException exception) {
-            System.out.println("Errror DB....: "  + exception.getMessage());
-            throw new RuntimeException("Error queryng database", exception);
+            System.out.println("Error DB....: "  + exception.getMessage());
+            throw new RuntimeException("Error querying database", exception);
         }
+    }
+
+    private String query(String name) {
+        return "SELECT* FROM tbl_birds WHERE " + name + " = ?";
     }
 
 }

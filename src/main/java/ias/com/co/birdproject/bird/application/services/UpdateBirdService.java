@@ -22,8 +22,16 @@ public class UpdateBirdService implements UpdateBirdUseCase {
         Optional<Bird> birdDB = birdRepository.get(bird.getId());
 
         if(birdDB.isPresent()) {
-            birdRepository.update(bird);
-            birdDTO.setStatus("Updated");
+            if(birdRepository.getCommonName(bird.getCommonName()).isPresent()) {
+                birdDTO.setStatus("Can not be updated, common name already exist");
+            } else if(birdRepository.getScientificName(bird.getScientificName()).isPresent()) {
+                birdDTO.setStatus("Can not be updated, scientific name already exist");
+            } else if(birdRepository.getZoneName(bird.getZoneName()).isPresent()) {
+                birdDTO.setStatus("Can not be updated, zone name already exist");
+            } else {
+                birdRepository.update(bird);
+                birdDTO.setStatus("Updated");;
+            }
         } else {
             birdDTO.setStatus("No updated");
         }
